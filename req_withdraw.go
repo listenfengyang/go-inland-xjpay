@@ -20,20 +20,39 @@ func (cli *Client) Withdraw(req InlandXJPayWithdrawReq) (*InlandXJPayCommonRsp, 
 	if req.OrderId == "" {
 		return nil, fmt.Errorf("orderid is empty")
 	}
-	if req.Amount == "" {
-		return nil, fmt.Errorf("amount is empty")
+	if req.RealName == "" {
+		return nil, fmt.Errorf("realName is empty")
 	}
-	if req.WebhookUrl == "" {
-		return nil, fmt.Errorf("webhookurl is empty")
+	if req.CardNumber == "" {
+		return nil, fmt.Errorf("cardNumber is empty")
+	}
+	if req.BankName == "" {
+		return nil, fmt.Errorf("bankName is empty")
+	}
+	if req.BankBranchName == "" {
+		return nil, fmt.Errorf("bankBranchName is empty")
+	}
+	if req.PayType == "" {
+		return nil, fmt.Errorf("pay_type is empty")
+	}
+	if req.PayAccount == "" {
+		return nil, fmt.Errorf("pay_account is empty")
+	}
+	if req.Usdt == "" {
+		return nil, fmt.Errorf("usdt is empty")
 	}
 
-	req.WebhookUrl = cli.Params.WithdrawBackUrl
+	if req.WebhookUrl == "" {
+		req.WebhookUrl = cli.Params.WithdrawBackUrl
+	}
+	if req.WebhookUrl == "" {
+		return nil, fmt.Errorf("webhookUrl is empty")
+	}
 	params := mapFromWithdrawReq(req)
 	headers := cli.buildAuthHeaders()
 
 	resp2, err := cli.ryClient.R().
 		SetHeaders(headers).
-		SetBody(params).
 		SetFormData(params).
 		SetDebug(cli.debugMode).
 		Post(cli.Params.WithdrawUrl)

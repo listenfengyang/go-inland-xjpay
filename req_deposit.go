@@ -8,14 +8,39 @@ import (
 )
 
 func (cli *Client) Deposit(req InlandXJPayDepositReq) (*InlandXJPayCommonRsp, error) {
+	if cli.Params.DepositUrl == "" {
+		return nil, fmt.Errorf("depositUrl is empty")
+	}
+	if cli.Params.AccessKey == "" {
+		return nil, fmt.Errorf("accessKey is empty")
+	}
+	if cli.Params.SecretKey == "" {
+		return nil, fmt.Errorf("secretKey is empty")
+	}
+	if req.OrderId == "" {
+		return nil, fmt.Errorf("orderid is empty")
+	}
+	if req.Amount == "" {
+		return nil, fmt.Errorf("amount is empty")
+	}
+	if req.Diqu == "" {
+		return nil, fmt.Errorf("diqu is empty")
+	}
+	if req.PayerName == "" {
+		return nil, fmt.Errorf("payername is empty")
+	}
 
-	req.BackUrl = cli.Params.DepositBackUrl
+	if req.BackUrl == "" {
+		req.BackUrl = cli.Params.DepositBackUrl
+	}
+	if req.BackUrl == "" {
+		return nil, fmt.Errorf("backurl is empty")
+	}
 	params := mapFromDepositReq(req)
 	headers := cli.buildAuthHeaders()
 
 	resp2, err := cli.ryClient.R().
 		SetHeaders(headers).
-		SetBody(params).
 		SetFormData(params).
 		SetDebug(cli.debugMode).
 		Post(cli.Params.DepositUrl)

@@ -39,7 +39,7 @@ func TestDeposit(t *testing.T) {
 
 func GenDepositRequestDemo() InlandXJPayDepositReq {
 	return InlandXJPayDepositReq{
-		OrderId:   "202508091146507663",
+		OrderId:   "202508091146507665",
 		Amount:    "3600",
 		Diqu:      "1",
 		YxTime:    "900",
