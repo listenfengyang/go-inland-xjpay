@@ -23,13 +23,13 @@ func TestWithdraw(t *testing.T) {
 
 func GenWithdrawRequestDemo() InlandXJPayWithdrawReq {
 	return InlandXJPayWithdrawReq{
-		OrderId:    "OUT202508091146507666",
-		Amount:     "1000",
-		Diqu:       "1",
-		PayeeName:  "张三",
-		BankCardNo: "6222021234567890",
-		BankName:   "ICBC",
-		BankBranch: "Shenzhen",
-		Remark:     "test",
+		RealName:       "王五",
+		CardNumber:     "665111111111",
+		BankName:       "建设银行",
+		BankBranchName: "建设银行长江路支行",
+		PayType:        "bank",
+		PayAccount:     "wxpay",
+		Usdt:           "200",
+		OrderId:        "123456789",
 	}
 }

@@ -82,15 +82,15 @@ func mapFromDepositReq(req InlandXJPayDepositReq) map[string]string {
 
 func mapFromWithdrawReq(req InlandXJPayWithdrawReq) map[string]string {
 	params := map[string]string{
-		"orderid":    req.OrderId,
-		"amount":     req.Amount,
-		"diqu":       req.Diqu,
-		"webhookurl": req.WebhookUrl,
-		"payername":  req.PayeeName,
-		"bankcard":   req.BankCardNo,
-		"bankname":   req.BankName,
-		"bankbranch": req.BankBranch,
-		"remark":     req.Remark,
+		"realName":       req.RealName,
+		"cardNumber":     req.CardNumber,
+		"bankName":       req.BankName,
+		"bankBranchName": req.BankBranchName,
+		"pay_type":       req.PayType,
+		"pay_account":    req.PayAccount,
+		"usdt":           req.Usdt,
+		"orderid":        req.OrderId,
+		"webhookUrl":     req.WebhookUrl,
 	}
 	for k, v := range req.Extra {
 		if v != "" {

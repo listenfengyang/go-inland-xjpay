@@ -9,10 +9,10 @@ import (
 
 func (cli *Client) DepositCallback(req InlandXJPayCallbackReq, processor func(InlandXJPayCallbackReq) error) error {
 	params := map[string]string{
-		"orderid": req.OrderId,
-		"status":  req.Status,
-		"amount":  req.Amount,
-		"sign":    req.Sign,
+		"type":       req.Type,
+		"orderid":    req.OrderId,
+		"pay_status": req.PayStatus,
+		"sign":       req.Sign,
 	}
 	for k, v := range req.Extra {
 		params[k] = v
@@ -27,10 +27,10 @@ func (cli *Client) DepositCallback(req InlandXJPayCallbackReq, processor func(In
 
 func (cli *Client) WithdrawCallback(req InlandXJPayCallbackReq, processor func(InlandXJPayCallbackReq) error) error {
 	params := map[string]string{
-		"orderid": req.OrderId,
-		"status":  req.Status,
-		"amount":  req.Amount,
-		"sign":    req.Sign,
+		"type":       req.Type,
+		"orderid":    req.OrderId,
+		"pay_status": req.PayStatus,
+		"sign":       req.Sign,
 	}
 	for k, v := range req.Extra {
 		params[k] = v
@@ -42,4 +42,3 @@ func (cli *Client) WithdrawCallback(req InlandXJPayCallbackReq, processor func(I
 	}
 	return processor(req)
 }
-
