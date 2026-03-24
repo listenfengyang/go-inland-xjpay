@@ -44,5 +44,5 @@ func GenCallbackRequestDemo() string {
 	}
 	signSource := utils.BuildSortedSignSource(params, SECRET_KEY)
 	sign := utils.Md5Hex(signSource)
-	return fmt.Sprintf(`{"orderid":"202508091146507666","pay_status":"3","type":"recharge","sign":"%s"}`, sign)
+	return fmt.Sprintf(`{"orderid":"202508091146507666","pay_status":3,"type":"recharge","sign":"%s"}`, sign)
 }

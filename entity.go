@@ -32,10 +32,18 @@ type InlandXJPayWithdrawReq struct {
 	Extra          map[string]string `json:"extra" mapstructure:"extra"`                                         // 扩展参数
 }
 
+type ResponseBody struct {
+	Code int64  `json:"code" mapstructure:"code"`
+	Msg  string `json:"msg" mapstructure:"msg"`
+	Time string `json:"time" mapstructure:"time"`
+	Data string `json:"data" mapstructure:"data"`
+}
+
 type InlandXJPayCommonRsp struct {
 	HttpStatusCode int               `json:"httpStatusCode" mapstructure:"httpStatusCode"` // HTTP状态码
 	ResponseBody   string            `json:"responseBody" mapstructure:"responseBody"`     // 原始响应体
 	Headers        map[string]string `json:"headers" mapstructure:"headers"`               // 请求头(含签名参数)
+	BodyData       ResponseBody      `json:"bodyData" mapstructure:"bodyData"`
 }
 
 type InlandXJPayCallbackReq struct {

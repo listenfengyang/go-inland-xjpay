@@ -1,6 +1,7 @@
 package go_inland_xjpay
 
 import (
+	"encoding/json"
 	"fmt"
 
 	jsoniter "github.com/json-iterator/go"
@@ -55,9 +56,15 @@ func (cli *Client) Deposit(req InlandXJPayDepositReq) (*InlandXJPayCommonRsp, er
 		return nil, fmt.Errorf("status code: %d, body:%s", resp2.StatusCode(), resp2.String())
 	}
 
+	var rspBody ResponseBody
+	if err := json.Unmarshal([]byte(resp2.String()), &rspBody); err != nil {
+		return nil, fmt.Errorf("json unmarshal body err: %s", err)
+	}
+
 	return &InlandXJPayCommonRsp{
 		HttpStatusCode: resp2.StatusCode(),
 		ResponseBody:   resp2.String(),
+		BodyData:       rspBody,
 		Headers:        headers,
 	}, nil
 }
