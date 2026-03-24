@@ -1,11 +1,7 @@
 package go_inland_xjpay
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
-
-	"github.com/listenfengyang/go-inland-xjpay/utils"
 )
 
 func TestCallback(t *testing.T) {
@@ -17,32 +13,24 @@ func TestCallback(t *testing.T) {
 		WithdrawUrl: WITHDRAW_URL,
 	})
 
-	req := GenCallbackRequestDemo()
-	var backReq InlandXJPayCallbackReq
-	err := json.Unmarshal([]byte(req), &backReq)
-	if err != nil {
-		cli.logger.Errorf("Error:%s", err.Error())
-		return
-	}
-
-	err = cli.DepositCallback(backReq, func(InlandXJPayCallbackReq) error {
+	sign := "A2C40DEC9D33C26DDCDF9E5F47806F79"
+	err := cli.DepositCallback(GenCallbackRequestDemo(), sign, func(InlandXJPayCallbackReq) error {
 		return nil
 	})
 	if err != nil {
 		cli.logger.Errorf("Error:%s", err.Error())
 		return
 	}
-	cli.logger.Infof("resp:%+v\n", backReq)
 }
 
 // {\"type\":\"recharge\",\"orderid\":\"202508091146507663\",\"pay_status\":3}
-func GenCallbackRequestDemo() string {
-	params := map[string]string{
-		"orderid":    "202508091146507666",
-		"pay_status": "3",
-		"type":       "recharge",
+func GenCallbackRequestDemo() InlandXJPayCallbackReq {
+	return InlandXJPayCallbackReq{
+		OrderId:    "202603241421520700",
+		PayStatus:  3,
+		Type:       "recharge",
+		Accesskey:  "1525364505",
+		Gmtrequest: "1774351417",
+		Randomstr:  "CdwyauBhzSiZV7gYmc8NYBUQgHObWbIL",
 	}
-	signSource := utils.BuildSortedSignSource(params, SECRET_KEY)
-	sign := utils.Md5Hex(signSource)
-	return fmt.Sprintf(`{"orderid":"202508091146507666","pay_status":3,"type":"recharge","sign":"%s"}`, sign)
 }

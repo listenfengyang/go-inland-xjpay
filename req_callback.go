@@ -3,22 +3,20 @@ package go_inland_xjpay
 import (
 	"encoding/json"
 	"errors"
-	"strconv"
 
 	"github.com/listenfengyang/go-inland-xjpay/utils"
 )
 
-func (cli *Client) DepositCallback(req InlandXJPayCallbackReq, processor func(InlandXJPayCallbackReq) error) error {
+// accesskey=1525364505&gmtrequest=1774351417&randomstr=CdwyauBhzSiZV7gYmc8NYBUQgHObWbIL&key=c87047c344517d5b26d5de992b93ce5b
+func (cli *Client) DepositCallback(req InlandXJPayCallbackReq, sign string, processor func(InlandXJPayCallbackReq) error) error {
 	params := map[string]string{
-		"type":       req.Type,
-		"orderid":    req.OrderId,
-		"pay_status": strconv.Itoa(int(req.PayStatus)),
-		"sign":       req.Sign,
+		"accesskey":  req.Accesskey,
+		"gmtrequest": req.Gmtrequest,
+		"randomstr":  req.Randomstr,
 	}
-	for k, v := range req.Extra {
-		params[k] = v
-	}
-	if !utils.VerifySignWithSortedParams(params, cli.Params.SecretKey) {
+
+	res, err := utils.VerifySignWithSortedParams(params, sign, cli.Params.SecretKey)
+	if !res || err != nil {
 		reqJson, _ := json.Marshal(req)
 		cli.logger.Errorf("inland-xjpay deposit callback verify fail, req: %s", string(reqJson))
 		return errors.New("sign verify error")
@@ -26,17 +24,15 @@ func (cli *Client) DepositCallback(req InlandXJPayCallbackReq, processor func(In
 	return processor(req)
 }
 
-func (cli *Client) WithdrawCallback(req InlandXJPayCallbackReq, processor func(InlandXJPayCallbackReq) error) error {
+func (cli *Client) WithdrawCallback(req InlandXJPayCallbackReq, sign string, processor func(InlandXJPayCallbackReq) error) error {
 	params := map[string]string{
-		"type":       req.Type,
-		"orderid":    req.OrderId,
-		"pay_status": strconv.Itoa(int(req.PayStatus)),
-		"sign":       req.Sign,
+		"accesskey":  req.Accesskey,
+		"gmtrequest": req.Gmtrequest,
+		"randomstr":  req.Randomstr,
 	}
-	for k, v := range req.Extra {
-		params[k] = v
-	}
-	if !utils.VerifySignWithSortedParams(params, cli.Params.SecretKey) {
+
+	res, err := utils.VerifySignWithSortedParams(params, sign, cli.Params.SecretKey)
+	if !res || err != nil {
 		reqJson, _ := json.Marshal(req)
 		cli.logger.Errorf("inland-xjpay withdraw callback verify fail, req: %s", string(reqJson))
 		return errors.New("sign verify error")

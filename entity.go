@@ -47,9 +47,12 @@ type InlandXJPayCommonRsp struct {
 }
 
 type InlandXJPayCallbackReq struct {
-	Type      string            `json:"type" form:"type" mapstructure:"type"`                   // 回调类型: recharge/withdraw
-	OrderId   string            `json:"orderid" form:"orderid" mapstructure:"orderid"`          // 商户订单号
-	PayStatus int64             `json:"pay_status" form:"pay_status" mapstructure:"pay_status"` // 支付状态
-	Sign      string            `json:"sign" form:"sign" mapstructure:"sign"`                   // 回调签名
-	Extra     map[string]string `json:"extra" mapstructure:"extra"`                             // 扩展参数
+	Type       string            `json:"type" form:"type" mapstructure:"type"`                   // 回调类型: recharge/withdraw
+	OrderId    string            `json:"orderid" form:"orderid" mapstructure:"orderid"`          // 商户订单号
+	PayStatus  int64             `json:"pay_status" form:"pay_status" mapstructure:"pay_status"` // 支付状态
+	Sign       string            `json:"sign" form:"sign" mapstructure:"sign"`                   // 回调签名
+	Extra      map[string]string `json:"extra" mapstructure:"extra"`                             // 扩展参数
+	Accesskey  string            `json:"accesskey" mapstructure:"accesskey"`                     // header中的值
+	Gmtrequest string            `json:"gmtrequest" mapstructure:"gmtrequest"`                   // header中的值
+	Randomstr  string            `json:"randomstr" mapstructure:"randomstr"`                     // header中的值
 }
