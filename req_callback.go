@@ -3,6 +3,7 @@ package go_inland_xjpay
 import (
 	"encoding/json"
 	"errors"
+	"strconv"
 
 	"github.com/listenfengyang/go-inland-xjpay/utils"
 )
@@ -11,7 +12,7 @@ func (cli *Client) DepositCallback(req InlandXJPayCallbackReq, processor func(In
 	params := map[string]string{
 		"type":       req.Type,
 		"orderid":    req.OrderId,
-		"pay_status": req.PayStatus,
+		"pay_status": strconv.Itoa(int(req.PayStatus)),
 		"sign":       req.Sign,
 	}
 	for k, v := range req.Extra {
@@ -29,7 +30,7 @@ func (cli *Client) WithdrawCallback(req InlandXJPayCallbackReq, processor func(I
 	params := map[string]string{
 		"type":       req.Type,
 		"orderid":    req.OrderId,
-		"pay_status": req.PayStatus,
+		"pay_status": strconv.Itoa(int(req.PayStatus)),
 		"sign":       req.Sign,
 	}
 	for k, v := range req.Extra {
